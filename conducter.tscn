@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://sj482cdre163"]
+
+[ext_resource type="AudioStream" uid="uid://bottxlbtu5twa" path="res://testSong1.mp3" id="1_jn7fx"]
+[ext_resource type="Script" path="res://Conducter.cs" id="1_rov2d"]
+[ext_resource type="AudioStream" uid="uid://mnuv7ilmmyuy" path="res://hat2.wav" id="3_mhjeq"]
+[ext_resource type="AudioStream" uid="uid://b6auqolahleqm" path="res://hat1.wav" id="4_7cvhd"]
+[ext_resource type="Script" path="res://TextureRect.cs" id="5_rio8v"]
+
+[node name="Conducter" type="AudioStreamPlayer"]
+stream = ExtResource("1_jn7fx")
+script = ExtResource("1_rov2d")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_right = 765.0
+offset_bottom = 127.0
+text = "TEST"
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_mhjeq")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_7cvhd")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 52.0
+offset_top = 83.0
+offset_right = 1132.0
+offset_bottom = 430.0
+script = ExtResource("5_rio8v")
