@@ -25,19 +25,14 @@ public partial class TextureRect : Godot.TextureRect
         };
 
         WaveFormRenderer renderer = new WaveFormRenderer();
-        var path = new AudioFileReader("./testSong1.mp3");
-
+        AudioFileReader path = new AudioFileReader("./testSong1.mp3");
         System.Drawing.Image image = renderer.Render(path, averagePeakProvider, myRendererSettings);
-
         MemoryStream ms = new MemoryStream();
         image.Save(ms, ImageFormat.Bmp);
-
-        var testArr = ms.ToArray();
-
-        var img = new Godot.Image();
-
+        byte[] testArr = ms.ToArray();
+        Godot.Image img = new Godot.Image();
         img.LoadBmpFromBuffer(testArr);
-        this.Texture = ImageTexture.CreateFromImage(img);
+        Texture = ImageTexture.CreateFromImage(img);
         GD.Print(testArr);
     }
 
