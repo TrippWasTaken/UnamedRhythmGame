@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://cqbio6x82a01j"]
+
+[ext_resource type="Script" path="res://editor/EditorContrainer.cs" id="1_t81b3"]
+[ext_resource type="PackedScene" uid="uid://sj482cdre163" path="res://conducter.tscn" id="2_jtb8f"]
+[ext_resource type="PackedScene" uid="uid://5srvjjt733g2" path="res://editor/InfoLabel.tscn" id="3_77jgu"]
+[ext_resource type="Script" path="res://editor/PlayStopButton.cs" id="4_nvy2v"]
+[ext_resource type="PackedScene" uid="uid://cyc5xx8tqn16g" path="res://editor/EditorSongTimeline.tscn" id="5_apwj6"]
+
+[node name="EditorContainer" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 17.0
+offset_top = -43.0
+offset_right = 17.0
+offset_bottom = -43.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t81b3")
+
+[node name="Conducter" parent="." instance=ExtResource("2_jtb8f")]
+
+[node name="InfoLabel" parent="." instance=ExtResource("3_77jgu")]
+layout_mode = 0
+
+[node name="ImportDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 1
+size = Vector2i(600, 400)
+min_size = Vector2i(600, 400)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.mp3", "*.wav")
+
+[node name="PlayStopButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 299.0
+offset_right = 159.0
+offset_bottom = 372.0
+toggle_mode = true
+text = "DefaultText"
+script = ExtResource("4_nvy2v")
+
+[node name="HFlowContainer" parent="." instance=ExtResource("5_apwj6")]
+layout_mode = 1
+anchors_preset = 2
+anchor_right = 0.0
+grow_horizontal = 1

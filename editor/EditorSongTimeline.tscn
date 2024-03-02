@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyc5xx8tqn16g"]
+
+[ext_resource type="Script" path="res://editor/EditorSongTimeline.cs" id="1_j1tsw"]
+
+[node name="HFlowContainer" type="HFlowContainer" node_paths=PackedStringArray("editorSongInfoText", "progressBar", "playStopButton")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -123.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_j1tsw")
+editorSongInfoText = NodePath("Control/EditorSongInfoText")
+progressBar = NodePath("Control3/ProgressBar")
+playStopButton = NodePath("Control2/PlayStopToggle")
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 2
+
+[node name="PlayStopToggle" type="Button" parent="Control2"]
+layout_mode = 2
+offset_left = 975.0
+offset_top = 22.0
+offset_right = 1128.0
+offset_bottom = 109.0
+text = "DefaultText
+"
+
+[node name="Control3" type="Control" parent="."]
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Control3"]
+layout_mode = 2
+offset_left = 161.0
+offset_top = 43.0
+offset_right = 945.0
+offset_bottom = 70.0
+size_flags_horizontal = 0
+step = 0.001
+show_percentage = false
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="EditorSongInfoText" type="RichTextLabel" parent="Control"]
+layout_mode = 1
+offset_right = 154.0
+offset_bottom = 115.0
+text = "Time: 00:00:00
+Bar: 00	Beat: 0
+000 BPM"

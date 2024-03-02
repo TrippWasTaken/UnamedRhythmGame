@@ -9,14 +9,21 @@ using NAudio.WaveFormRenderer;
 
 public partial class TextureRect : Godot.TextureRect
 {
+    long songLength;
+    AudioFileReader songFile;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         var averagePeakProvider = new AveragePeakProvider(0.5f); // e.g. 4
+        songFile = new AudioFileReader("./testSong1.mp3");
+        songLength = songFile.Length;
+        GD.Print("Hello test len: ", (int)songLength);
 
+        // 65230816
         StandardWaveFormRendererSettings myRendererSettings = new StandardWaveFormRendererSettings
         {
-            Width = 3000,
+            Width = (int)(songLength / 10000),
             TopHeight = 120,
             BottomHeight = 0,
             TopPeakPen = Pens.White,
@@ -25,12 +32,15 @@ public partial class TextureRect : Godot.TextureRect
         };
 
         WaveFormRenderer renderer = new WaveFormRenderer();
-        AudioFileReader path = new AudioFileReader("./testSong1.mp3");
-        System.Drawing.Image image = renderer.Render(path, averagePeakProvider, myRendererSettings);
+        System.Drawing.Image image = renderer.Render(
+            songFile,
+            averagePeakProvider,
+            myRendererSettings
+        );
         MemoryStream ms = new MemoryStream();
         image.Save(ms, ImageFormat.Bmp);
         byte[] testArr = ms.ToArray();
-        Godot.Image img = new Godot.Image();
+        Godot.Image img = new();
         img.LoadBmpFromBuffer(testArr);
         Texture = ImageTexture.CreateFromImage(img);
         GD.Print(testArr);

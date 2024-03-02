@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://5srvjjt733g2"]
+
+[node name="RichTextLabel" type="RichTextLabel"]
+offset_right = 765.0
+offset_bottom = 127.0
+text = "TEST"

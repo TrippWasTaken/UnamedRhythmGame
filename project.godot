@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Video Game Programming"
-run/main_scene="res://conducter.tscn"
+run/main_scene="res://editor/EditorContrainer.tscn"
 config/features=PackedStringArray("4.2", "C#", "Mobile")
 config/icon="res://icon.svg"
 

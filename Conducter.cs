@@ -7,52 +7,69 @@ public partial class Conducter : AudioStreamPlayer
     private double _timeDelay;
 
     [Export]
-    private static double songBPM = 170;
+    public double SongBPM { get; private set; } = 170.0;
     double secPerBeat;
-    double firstBeatOffset = 1200000.0;
+    public double firstBeatOffset = 1200000.0;
     double timeTillNextBeat;
     double songBeatFloat;
-    int songBeatInt;
+    public int SongBeatInt { get; private set; }
     int clickTrack = 0;
-    public int currBar = 0;
+    public int CurrBar { get; private set; } = 0;
     private RichTextLabel testLabel;
     private AudioStreamPlayer click1,
         click2;
+    double timeInSec;
+    public double SongPosition { get; private set; }
+
+    public void PlayBackStart()
+    {
+        _timeBegin = Time.GetTicksUsec();
+        _timeDelay = AudioServer.GetTimeToNextMix() + AudioServer.GetOutputLatency();
+        GD.Print($"Audio Play time begin: {_timeBegin} with delay: {_timeDelay}");
+        Play();
+    }
+
+    public void InitializeProperties()
+    {
+        secPerBeat = 60.0d / SongBPM;
+        SongPosition = 0;
+        timeInSec = 0;
+        CurrBar = 0;
+        clickTrack = 0;
+        VolumeDb = -15.0f;
+    }
 
     public override void _Ready()
     {
-        testLabel = this.GetNode<RichTextLabel>("RichTextLabel");
-        click1 = this.GetNode<AudioStreamPlayer>("AudioStreamPlayer");
-        click2 = this.GetNode<AudioStreamPlayer>("AudioStreamPlayer2");
-        secPerBeat = 60.0d / songBPM;
-        _timeBegin = Time.GetTicksUsec();
-        _timeDelay = AudioServer.GetTimeToNextMix() + AudioServer.GetOutputLatency();
-        VolumeDb = -15.0f;
-        Play();
-        GD.Print(_timeBegin);
+        testLabel = GetTree().CurrentScene.GetNode<RichTextLabel>("InfoLabel");
+        click1 = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+        click2 = GetNode<AudioStreamPlayer>("AudioStreamPlayer2");
     }
 
     public override void _Process(double delta)
     {
-        double songPosition = -firstBeatOffset + Time.GetTicksUsec() - _timeBegin;
-        double timeInSec = songPosition / 1000000.0d;
-        songBeatFloat = timeInSec / secPerBeat;
-        songBeatInt = (int)Math.Floor(songBeatFloat);
-
+        if (testLabel != null)
+        {
+            testLabel.Text =
+                $"bar: {CurrBar}\ttime: {timeInSec:F2} \tBeat: {SongBeatInt} \tBPM: {SongBPM}";
+        }
         if (Playing)
         {
-            if (clickTrack <= songBeatInt)
+            SongPosition = -firstBeatOffset + Time.GetTicksUsec() - _timeBegin;
+            timeInSec = SongPosition / 1000000.0d;
+            songBeatFloat = timeInSec / secPerBeat;
+            SongBeatInt = (int)Math.Floor(songBeatFloat);
+
+            if (clickTrack <= SongBeatInt)
             {
                 click1.Play();
                 clickTrack++;
             }
-            if (songBeatInt % 4 == 0 && currBar <= songBeatInt / 4)
+            if (SongBeatInt % 4 == 0 && CurrBar <= SongBeatInt / 4)
             {
                 click2.Play();
-                currBar++;
+                CurrBar++;
             }
         }
-        testLabel.Text =
-            $"bar: {currBar}\ttime: {timeInSec:F2} \tBeat: {songBeatInt} \tBPM: {songBPM}";
     }
 }
